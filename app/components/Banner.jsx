@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     backgroundSize: "cover",
     backgroundPosition: "center",
     backgroundAttachment: "fixed",
-    marginTop: 60
+    marginTop: 60,
   },
 });
 

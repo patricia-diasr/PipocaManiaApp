@@ -1,11 +1,11 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import HomeScreen from "../screens/HomeScreen";
-import TicketsScreen from "../screens/TicketsScreen";
-import ListsScreen from "../screens/ListsScreen";
+import Home from "../screens/Home";
+import Tickets from "../screens/Tickets";
+import Lists from "../screens/Lists";
 import SearchScreen from "../screens/SearchScreen";
-import CheckTicketScreen from "../screens/CheckTicketScreen";
+import CheckTicketScreen from "../screens/CheckTicketsScreen";
 import ScreeningsScreen from "../screens/ScreeningsScreen";
 import { StyleSheet } from "react-native";
 
@@ -44,17 +44,17 @@ function Menu() {
         <>
           <Tab.Screen
             name="Home"
-            component={HomeScreen}
+            component={Home}
             options={{ tabBarLabel: "Home" }}
           />
           <Tab.Screen
             name="Ingressos"
-            component={TicketsScreen}
+            component={Tickets}
             options={{ tabBarLabel: "Ingressos" }}
           />
           <Tab.Screen
             name="Minhas Listas"
-            component={ListsScreen}
+            component={Lists}
             options={{ tabBarLabel: "Minhas Listas" }}
           />
         </>

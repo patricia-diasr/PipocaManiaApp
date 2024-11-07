@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-function SearchScreen({ navigation }) {
+function CheckTicketsScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>Search</Text>
+      <Text style={styles.welcomeText}>CheckTicketsScreen</Text>
     </View>
   );
 }
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchScreen;
+export default CheckTicketsScreen;
