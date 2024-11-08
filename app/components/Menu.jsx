@@ -1,19 +1,44 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import Home from "../screens/Home";
 import Tickets from "../screens/Tickets";
 import Lists from "../screens/Lists";
-import SearchScreen from "../screens/SearchScreen";
-import CheckTicketScreen from "../screens/CheckTicketsScreen";
-import ScreeningsScreen from "../screens/ScreeningsScreen";
+import Movie from "../screens/Movie";
 import { StyleSheet } from "react-native";
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+function HomeStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="HomeScreen" component={Home} />
+      <Stack.Screen name="Movie" component={Movie} />
+    </Stack.Navigator>
+  );
+}
+
+function TicketsStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="TicketsScreen" component={Tickets} />
+      <Stack.Screen name="Movie" component={Movie} />
+    </Stack.Navigator>
+  );
+}
+
+function ListsStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="ListsScreen" component={Lists} />
+      <Stack.Screen name="Movie" component={Movie} />
+    </Stack.Navigator>
+  );
+}
 
 function Menu() {
-  const userRole = "client";
-
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -26,10 +51,6 @@ function Menu() {
             iconName = "ticket";
           } else if (route.name === "Minhas Listas") {
             iconName = "bookmark";
-          } else if (route.name === "Buscar") {
-            iconName = "search";
-          } else if (route.name === "Sessões") {
-            iconName = "videocam";
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -40,44 +61,21 @@ function Menu() {
         headerShown: false,
       })}
     >
-      {userRole === "client" && (
-        <>
-          <Tab.Screen
-            name="Home"
-            component={Home}
-            options={{ tabBarLabel: "Home" }}
-          />
-          <Tab.Screen
-            name="Ingressos"
-            component={Tickets}
-            options={{ tabBarLabel: "Ingressos" }}
-          />
-          <Tab.Screen
-            name="Minhas Listas"
-            component={Lists}
-            options={{ tabBarLabel: "Minhas Listas" }}
-          />
-        </>
-      )}
-      {userRole === "admin" && (
-        <>
-          <Tab.Screen
-            name="Buscar"
-            component={SearchScreen}
-            options={{ tabBarLabel: "Buscar" }}
-          />
-          <Tab.Screen
-            name="Ingressos"
-            component={CheckTicketScreen}
-            options={{ tabBarLabel: "Ingressos" }}
-          />
-          <Tab.Screen
-            name="Sessões"
-            component={ScreeningsScreen}
-            options={{ tabBarLabel: "Sessões" }}
-          />
-        </>
-      )}
+      <Tab.Screen
+        name="Home"
+        component={HomeStack}
+        options={{ tabBarLabel: "Home" }}
+      />
+      <Tab.Screen
+        name="Ingressos"
+        component={TicketsStack}
+        options={{ tabBarLabel: "Ingressos" }}
+      />
+      <Tab.Screen
+        name="Minhas Listas"
+        component={ListsStack}
+        options={{ tabBarLabel: "Minhas Listas" }}
+      />
     </Tab.Navigator>
   );
 }

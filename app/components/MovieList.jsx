@@ -13,7 +13,7 @@ function MovieList({ title, list }) {
   const navigation = useNavigation();
 
   const handleMovieClick = (movieId) => {
-    navigation.navigate("MovieDetails", { id: movieId });
+    navigation.navigate("Movie", { id: movieId });
   };
 
   return (
