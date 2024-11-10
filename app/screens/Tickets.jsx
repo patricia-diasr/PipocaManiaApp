@@ -175,10 +175,10 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: "#17082a",
-    padding: 30, // Aumentando o padding para mais espaçamento
-    borderRadius: 20, // Aumentando o border-radius para bordas mais arredondadas
-    width: "90%", // Aumentando a largura do modal
-    maxWidth: 500, // Definindo uma largura máxima para não ficar muito grande em telas grandes
+    padding: 30,
+    borderRadius: 20,
+    width: "90%",
+    maxWidth: 500,
     alignItems: "center",
   },
   qrImage: {
@@ -212,9 +212,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   warning: {
-    marginTop: 20,
-    color: "#f79e44",
+    color: "#fefefe",
     textAlign: "center",
+    marginVertical: 20,
+    fontSize: 16,
   },
   textWhite: {
     color: "#fefefe",

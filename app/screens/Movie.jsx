@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRoute } from "@react-navigation/native";
-import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
+import { ScrollView, Text, ActivityIndicator, StyleSheet } from "react-native";
 
 import Submenu from "../components/Submenu";
 import Banner from "../components/Banner";
@@ -37,7 +37,7 @@ function Movie() {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {movieDetails?.backdrop_path && (
         <Banner path_image={movieDetails.backdrop_path} />
       )}
@@ -47,7 +47,7 @@ function Movie() {
       {activePage === "detail" ? (
         movieDetails ? (
           <MovieDetail
-            id={id}
+            movieId={id}
             movieDetails={movieDetails}
             movieCredits={movieCredits}
             movieComments={movieComments}
@@ -62,19 +62,20 @@ function Movie() {
           id={id}
         />
       )}
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0c0f0a", 
+    backgroundColor: "#0c0f0a",
   },
   warning: {
-    color: "red",
+    color: "#fefefe",
     textAlign: "center",
-    marginTop: 20,
+    marginVertical: 20,
+    fontSize: 16,
   },
 });
 
