@@ -44,7 +44,7 @@ function Tickets() {
         <View style={styles.ticketsContainer}>
           {tickets.map((ticket) => (
             <TouchableOpacity
-              key={ticket.movieId}
+              key={ticket.checkoutId}
               style={[
                 styles.ticket,
                 ticket.status === false && styles.disabled,

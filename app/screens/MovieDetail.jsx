@@ -91,6 +91,8 @@ function MovieDetail({ movieId, movieDetails, movieCredits, movieComments }) {
     }
   }
 
+  const closeModal = () => setIsModalVisible(false);
+
   async function handleSubmit(e) {
     e.preventDefault();
     const user = {
@@ -115,7 +117,7 @@ function MovieDetail({ movieId, movieDetails, movieCredits, movieComments }) {
       await submitReview(user.id, movieId, comment, review);
       closeModal();
       setNewReview({ stars: 0, comment: "" });
-      navigation.replace("CurrentScreen", { movieId: movieId });
+      navigation.replace("MovieDetail", { movieId: movieId });
     } catch (error) {
       console.error("Erro ao enviar avaliação:", error);
     }

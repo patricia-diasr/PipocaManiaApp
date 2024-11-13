@@ -29,45 +29,45 @@ function Seatmap({ seatingData, onSeatSelect }) {
 
 const styles = StyleSheet.create({
     seatmap: {
-        backgroundColor: '#7D56D3', 
+        backgroundColor: '#17082a', 
         padding: 10,
         borderRadius: 20,
+        alignItems: "center"
     },
     room: {
         flexDirection: "column",
-        gap: 5,
+        gap: 6,
     },
     row: {
         flexDirection: "row",
-        gap: 5,
+        gap: 6,
     },
     seat: {
-        width: 30,
-        height: 30,
+        width: 32,
+        height: 32,
         borderRadius: 15,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#8E44AD", 
     },
     seatText: {
-        fontSize: 12,
+        fontSize: 13,
         color: "#fff",
     },
     available: {
-        backgroundColor: "#8E44AD", 
+        backgroundColor: "#6644b8", 
     },
     availableHovered: {
         opacity: 0.8,
     },
     booked: {
-        backgroundColor: "#4E4D4D",
+        backgroundColor: "#4e4d4d",
     },
     selected: {
-        backgroundColor: "#F1C40F",
+        backgroundColor: "#f79e44",
     },
     emptySeat: {
-        width: 5,
-        height: 5,
+        width: 10,
+        height: 10,
     },
 });
 
