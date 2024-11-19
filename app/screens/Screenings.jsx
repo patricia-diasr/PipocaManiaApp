@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-function ScreeningsScreen({ navigation }) {
+function Screenings({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>Lists</Text>
+      <Text style={styles.welcomeText}>Screenings</Text>
     </View>
   );
 }
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ScreeningsScreen;
+export default Screenings;

@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-function CheckTicketsScreen({ navigation }) {
+function CheckTickets({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.welcomeText}>CheckTicketsScreen</Text>
+      <Text style={styles.welcomeText}>CheckTickets</Text>
     </View>
   );
 }
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CheckTicketsScreen;
+export default CheckTickets;

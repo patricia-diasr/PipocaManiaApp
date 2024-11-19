@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-function SearchScreen({ navigation }) {
+function Search({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.welcomeText}>Search</Text>
@@ -28,4 +28,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SearchScreen;
+export default Search;
