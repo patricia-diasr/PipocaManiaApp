@@ -33,7 +33,7 @@ function MovieCheckout({ screenings, movieName, movieId }) {
   const navigation = useNavigation();
 
   if (!screenings) {
-    return <Text>Não há sessões disponíveis para esse filme</Text>;
+    return <Text style={styles.warning}>Não há sessões disponíveis para esse filme</Text>;
   }
 
   useEffect(() => {
@@ -471,6 +471,12 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "column",
     marginVertical: 10,
+  },
+  warning: {
+    color: "#fefefe",
+    textAlign: "center",
+    marginVertical: 70,
+    fontSize: 16,
   },
 });
 
