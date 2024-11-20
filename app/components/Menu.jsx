@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAuth } from "../context/AuthContext"; 
 import Home from "../screens/Home";
 import Tickets from "../screens/Tickets";
 import Lists from "../screens/Lists";
@@ -77,26 +77,9 @@ function AuthStack() {
 }
 
 function Menu() {
-  const [profile, setProfile] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, profile, loadUserData } = useAuth(); 
 
   useEffect(() => {
-    const loadUserData = async () => {
-      try {
-        const user = await AsyncStorage.getItem("user");
-        if (user) {
-          setIsLoggedIn(true);
-          const storedProfile = JSON.parse(user).role;
-          setProfile(storedProfile);
-        } else {
-          setIsLoggedIn(false);
-        }
-      } catch (error) {
-        console.log("Erro ao verificar login:", error);
-        setIsLoggedIn(false);
-      }
-    };
-
     loadUserData();
   }, []);
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -9,8 +9,11 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { login } from "../services/authenticationService";
+import { useAuth } from "../context/AuthContext";
 
 function Login() {
+  const { loadUserData } = useAuth();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -31,11 +34,7 @@ function Login() {
 
       if (loginData) {
         await AsyncStorage.setItem("user", JSON.stringify(loginData.user));
-        if (loginData.user.role === "client") {
-          navigation.navigate("Home");
-        } else {
-          navigation.navigate("Search");
-        }
+        loadUserData();
       }
     } catch (err) {
       setError("Senha ou login inválidos");

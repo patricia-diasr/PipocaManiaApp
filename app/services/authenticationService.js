@@ -1,4 +1,5 @@
 import { apiMovieTheater } from "./apiClient";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export async function login(loginData) {
   try {
@@ -58,5 +59,14 @@ export async function signup(signupData) {
     }
   } catch (error) {
     throw new Error(`Error during signup: ${error.message}`);
+  }
+}
+
+export async function logout() {
+  try {
+    await AsyncStorage.removeItem("user");
+    return { message: "Logout successful" };
+  } catch (error) {
+    throw new Error(`Error during logout: ${error.message}`);
   }
 }

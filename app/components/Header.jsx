@@ -1,10 +1,32 @@
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { logout } from "../services/authenticationService";
+import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../context/AuthContext";
 
 function Header() {
+  const navigation = useNavigation();
+  const { loadUserData, isLoggedIn } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      Alert.alert("Logout", "Logout realizado com sucesso!");
+      loadUserData();
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    }
+  };
+
   return (
     <View style={styles.header}>
       <Image source={require("../assets/logo.png")} style={styles.logo} />
+      {isLoggedIn && (
+        <TouchableOpacity onPress={handleLogout}>
+          <Ionicons name="log-out-outline" size={24} color="#ffffff" />
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
