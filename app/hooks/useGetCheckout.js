@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getCheckout } from "../services/checkoutService";
 
 function useGetCheckout(user) {
@@ -6,22 +6,23 @@ function useGetCheckout(user) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchCheckout = async () => {
-      try {
-        const tickets = await getCheckout(user);
-        setTickets(tickets);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCheckout();
+  const fetchCheckout = useCallback(async () => {
+    try {
+      setLoading(true);  
+      const tickets = await getCheckout(user);
+      setTickets(tickets);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);  
+    }
   }, [user]);
 
-  return { tickets, error, loading };
+  useEffect(() => {
+    fetchCheckout();  
+  }, [user, fetchCheckout]);
+
+  return { tickets, error, loading, fetchCheckout }; 
 }
 
 export default useGetCheckout;

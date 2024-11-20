@@ -7,14 +7,16 @@ import {
   Image,
   ScrollView,
   StyleSheet,
+  RefreshControl, 
 } from "react-native";
 import useGetCheckout from "../hooks/useGetCheckout";
 
 function Tickets() {
   const user = "2";
-  const { tickets, error, loading } = useGetCheckout(user);
+  const { tickets, error, loading, fetchCheckout } = useGetCheckout(user);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);  
 
   const openModal = (ticket) => {
     if (ticket.status) {
@@ -24,6 +26,12 @@ function Tickets() {
   };
 
   const closeModal = () => setIsModalVisible(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);  
+    await fetchCheckout();  
+    setRefreshing(false);  
+  };
 
   if (loading) {
     return <Text style={styles.warning}>Carregando...</Text>;
@@ -38,7 +46,12 @@ function Tickets() {
   }
 
   return (
-    <ScrollView style={styles.tickets}>
+    <ScrollView 
+      style={styles.tickets}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> 
+      }
+    >
       <View style={styles.section}>
         <Text style={styles.title}>Meus Ingressos</Text>
         <View style={styles.ticketsContainer}>

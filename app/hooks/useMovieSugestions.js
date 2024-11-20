@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getUpcomingMovies } from "../services/listService";
 
 function useMovieSugestions() {
@@ -6,22 +6,23 @@ function useMovieSugestions() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchMovieDetails = async () => {
-      try {
-        const upcomingMovies = await getUpcomingMovies();
-        setUpcomingMovies(upcomingMovies);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMovieDetails();
+  const fetchMovieDetails = useCallback(async () => {
+    try {
+      setLoading(true); 
+      const upcomingMovies = await getUpcomingMovies();
+      setUpcomingMovies(upcomingMovies);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false); 
+    }
   }, []);
 
-  return { upcomingMovies, error, loading };
+  useEffect(() => {
+    fetchMovieDetails(); 
+  }, [fetchMovieDetails]);
+
+  return { upcomingMovies, error, loading, fetchMovieDetails }; 
 }
 
 export default useMovieSugestions;

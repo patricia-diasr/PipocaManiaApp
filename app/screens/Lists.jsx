@@ -1,17 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   ActivityIndicator,
   StyleSheet,
   ScrollView,
+  RefreshControl,  
 } from "react-native";
 import MovieList from "../components/MovieList";
 import useMovieLists from "../hooks/useMovieLists";
 
 function Lists() {
   const user = "2";
-  const { watchlist, myReviews, error, loading } = useMovieLists(user);
+  const { watchlist, myReviews, error, loading, fetchMovieLists } = useMovieLists(user); 
+  const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);  
+    await fetchMovieLists();  
+    setRefreshing(false); 
+  };
 
   if (loading) {
     return (
@@ -28,7 +36,12 @@ function Lists() {
   }
 
   return (
-    <ScrollView style={styles.lists}>
+    <ScrollView
+      style={styles.lists}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> 
+      }
+    >
       <View style={styles.section}>
         <Text style={styles.title}>Minhas Listas</Text>
         {myReviews.length > 0 && (

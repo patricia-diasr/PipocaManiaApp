@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getUserMovieLists } from "../services/listService";
 
 function useMovieLists(user) {
@@ -8,24 +8,24 @@ function useMovieLists(user) {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchMovieLists = async () => {
-      try {
-        const userData = await getUserMovieLists(user);
-
-        setWatchlist(userData.watchlist || []);
-        setMyReviews(userData.myReviews || []);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchMovieLists();
+  const fetchMovieLists = useCallback(async () => {
+    try {
+      setLoading(true); 
+      const userData = await getUserMovieLists(user);
+      setWatchlist(userData.watchlist || []);
+      setMyReviews(userData.myReviews || []);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);  
+    }
   }, [user]);
 
-  return { watchlist, myReviews, error, loading };
+  useEffect(() => {
+    fetchMovieLists(); 
+  }, [user, fetchMovieLists]);
+
+  return { watchlist, myReviews, error, loading, fetchMovieLists };
 }
 
 export default useMovieLists;
