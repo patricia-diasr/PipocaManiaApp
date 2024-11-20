@@ -11,8 +11,8 @@ import Movie from "../screens/Movie";
 import CheckTickets from "../screens/CheckTickets";
 import Search from "../screens/Search";
 import Screenings from "../screens/Screenings";
-import Login from "../screens/Login"; 
-import Signup from "../screens/Signup"; 
+import Login from "../screens/Login";
+import Signup from "../screens/Signup";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -30,7 +30,6 @@ function TicketsStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="TicketsScreen" component={Tickets} />
-      <Stack.Screen name="Movie" component={Movie} />
     </Stack.Navigator>
   );
 }
@@ -44,12 +43,26 @@ function ListsStack() {
   );
 }
 
-function AdminStack() {
+function SearchStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="CheckTickets" component={CheckTickets} />
-      <Stack.Screen name="Search" component={Search} />
-      <Stack.Screen name="Screenings" component={Screenings} />
+      <Stack.Screen name="SearchScreen" component={Search} />
+    </Stack.Navigator>
+  );
+}
+
+function CheckTicketsStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="CheckTicketsScreen" component={CheckTickets} />
+    </Stack.Navigator>
+  );
+}
+
+function ScreeningsStack() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="ScreeningsScreen" component={Screenings} />
     </Stack.Navigator>
   );
 }
@@ -73,7 +86,7 @@ function Menu() {
         const user = await AsyncStorage.getItem("user");
         if (user) {
           setIsLoggedIn(true);
-          const storedProfile = JSON.parse(user).role;  
+          const storedProfile = JSON.parse(user).role;
           setProfile(storedProfile);
         } else {
           setIsLoggedIn(false);
@@ -100,7 +113,6 @@ function Menu() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
           let iconName;
-          // Set iconName for different tabs
           if (route.name === "Home") iconName = "home";
           else if (route.name === "Ingressos") iconName = "ticket";
           else if (route.name === "Minhas Listas") iconName = "bookmark";
@@ -120,7 +132,7 @@ function Menu() {
         <>
           <Tab.Screen
             name="Home"
-            component={HomeStack} // This will correctly show the Home screen in the stack
+            component={HomeStack} 
             options={{ tabBarLabel: "Home" }}
           />
           <Tab.Screen
@@ -137,18 +149,18 @@ function Menu() {
       ) : (
         <>
           <Tab.Screen
-            name="CheckTickets"
-            component={AdminStack}
-            options={{ tabBarLabel: "Ingressos" }}
-          />
-          <Tab.Screen
             name="Search"
-            component={AdminStack}
+            component={SearchStack} 
             options={{ tabBarLabel: "Buscar" }}
           />
           <Tab.Screen
+            name="CheckTickets"
+            component={CheckTicketsStack}
+            options={{ tabBarLabel: "Ingressos" }}
+          />
+          <Tab.Screen
             name="Screenings"
-            component={AdminStack}
+            component={ScreeningsStack}
             options={{ tabBarLabel: "Sessões" }}
           />
         </>

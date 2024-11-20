@@ -21,6 +21,53 @@ export async function getCheckout(userId) {
   }
 }
 
+export async function useCheckout(checkoutId) {
+  try {
+    const userResponse = await apiMovieTheater.get(`/users.json`);
+    const usersData = userResponse.data || [];
+
+    let foundTicket = null;
+    let userIndex = -1;
+    let ticketIndex = -1;
+
+    for (let i = 0; i < usersData.length; i++) {
+      const user = usersData[i];
+      
+      ticketIndex = user.tickets ? user.tickets.findIndex(ticket => ticket.checkoutId === checkoutId) : -1;
+      
+      if (ticketIndex !== -1) {
+        foundTicket = user.tickets[ticketIndex];
+        userIndex = i;
+        break;  
+      }
+    }
+
+    if (!foundTicket) {
+      return { message: "Ingresso não encontrado" }; 
+    }
+
+    if (foundTicket.status === false) {
+      return { message: "Ingresso já utilizado" };  
+    }
+
+    usersData[userIndex].tickets[ticketIndex].status = false;
+
+    const updateResponse = await apiMovieTheater.put(`/users.json`, usersData);
+
+    if (updateResponse.status === 200) {
+      return {
+        message: "Ingresso utilizado",
+        checkoutData: usersData[userIndex].tickets[ticketIndex], 
+      };
+    } else {
+      throw new Error("Failed to update user tickets");
+    }
+  } catch (error) {
+    throw new Error(`Error updating checkout status: ${error.message}`);
+  }
+}
+
+
 export async function saveCheckout(userId, reservation) {
   try {
     const userResponse = await apiMovieTheater.get(`/users.json`);
@@ -88,3 +135,5 @@ export async function updateSeatingData(movieId, screeningId, seatingData) {
     throw new Error("Error updating seating data: " + error.message);
   }
 }
+
+
