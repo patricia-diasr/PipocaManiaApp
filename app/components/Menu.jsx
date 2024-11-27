@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text } from "react-native";
-import { useAuth } from "../context/AuthContext"; 
+import { useAuth } from "../context/AuthContext";
 import Home from "../screens/Home";
 import Tickets from "../screens/Tickets";
 import Lists from "../screens/Lists";
@@ -77,7 +77,7 @@ function AuthStack() {
 }
 
 function Menu() {
-  const { isLoggedIn, profile, loadUserData } = useAuth(); 
+  const { isLoggedIn, profile, loadUserData } = useAuth();
 
   useEffect(() => {
     loadUserData();
@@ -115,7 +115,7 @@ function Menu() {
         <>
           <Tab.Screen
             name="Home"
-            component={HomeStack} 
+            component={HomeStack}
             options={{ tabBarLabel: "Home" }}
           />
           <Tab.Screen
@@ -133,7 +133,7 @@ function Menu() {
         <>
           <Tab.Screen
             name="Search"
-            component={SearchStack} 
+            component={SearchStack}
             options={{ tabBarLabel: "Buscar" }}
           />
           <Tab.Screen
