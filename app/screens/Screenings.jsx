@@ -7,9 +7,14 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 function Screenings() {
-  const handleMovieClick = (movieId) => {};
+  const navigation = useNavigation();
+
+  const handleMovieClick = (movieId) => {
+    navigation.navigate("MovieScreenings", { id: movieId });
+  };
 
   const movies = [
     { id: "1022789", poster_path: "/hGTxHEDQBa6AAuGWDrTpbJjEO0w.jpg" },

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { TouchableOpacity, Text, View, StyleSheet } from "react-native";
 
-function Submenu({ setActivePage }) {
-  const [activeLink, setActiveLink] = useState("detail");
+function Submenu({ setActivePage, routes }) {
+  const [activeLink, setActiveLink] = useState(routes[0]?.page || "");
 
   const handleClick = (page) => {
     setActivePage(page);
@@ -12,19 +12,15 @@ function Submenu({ setActivePage }) {
   return (
     <View style={styles.submenu}>
       <View style={styles.items}>
-        <TouchableOpacity
-          onPress={() => handleClick("detail")}
-          style={[styles.button, activeLink === "detail" && styles.active]}
-        >
-          <Text style={styles.buttonText}>Sobre o filme</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => handleClick("checkout")}
-          style={[styles.button, activeLink === "checkout" && styles.active]}
-        >
-          <Text style={styles.buttonText}>Assistir</Text>
-        </TouchableOpacity>
+        {routes.map((route) => (
+          <TouchableOpacity
+            key={route.page}
+            onPress={() => handleClick(route.page)}
+            style={[styles.button, activeLink === route.page && styles.active]}
+          >
+            <Text style={styles.buttonText}>{route.label}</Text>
+          </TouchableOpacity>
+        ))}
       </View>
     </View>
   );
@@ -42,7 +38,7 @@ const styles = StyleSheet.create({
   },
   items: {
     flexDirection: "row",
-    width: "100%", 
+    width: "100%",
   },
   button: {
     fontSize: 18,
@@ -51,8 +47,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderBottomWidth: 2,
     borderBottomColor: "#d9d9d9",
-    flex: 1, 
-    alignItems: "center", 
+    flex: 1,
+    alignItems: "center",
   },
   buttonText: {
     color: "#fefefe",

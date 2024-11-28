@@ -17,8 +17,10 @@ function Search() {
 
   const navigation = useNavigation();
 
-  const handleMovieClick = (movieId) => {};
-
+  const handleMovieClick = (movieId) => {
+    navigation.navigate("MovieScreenings", { id: movieId });
+  };
+  
   const handleInputChange = (text) => {
     setQuery(text);
   };

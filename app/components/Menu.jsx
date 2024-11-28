@@ -8,6 +8,7 @@ import Home from "../screens/Home";
 import Tickets from "../screens/Tickets";
 import Lists from "../screens/Lists";
 import Movie from "../screens/Movie";
+import MovieScreenings from "../screens/MovieScreenings";
 import CheckTickets from "../screens/CheckTickets";
 import Search from "../screens/Search";
 import Screenings from "../screens/Screenings";
@@ -47,6 +48,7 @@ function SearchStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="SearchScreen" component={Search} />
+      <Stack.Screen name="MovieScreenings" component={MovieScreenings} />
     </Stack.Navigator>
   );
 }
@@ -63,6 +65,7 @@ function ScreeningsStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="ScreeningsScreen" component={Screenings} />
+      <Stack.Screen name="MovieScreenings" component={MovieScreenings} />
     </Stack.Navigator>
   );
 }

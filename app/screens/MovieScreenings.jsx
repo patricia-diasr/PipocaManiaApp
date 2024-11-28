@@ -8,27 +8,20 @@ import Banner from "../components/Banner";
 import useMovieDetails from "../hooks/useMovieDetails";
 import useMovieScreenings from "../hooks/useMovieScreenings";
 
-import MovieDetail from "./MovieDetail";
-import MovieCheckout from "./MovieCheckout";
+import ListScreenings from "./ListScreenings";
+import NewScreenings from "./NewScreening";
 
-function Movie() {
+function MovieScreenings() {
   const route = useRoute();
   const { id } = route.params;
-  const [activePage, setActivePage] = useState("detail");
+  const [activePage, setActivePage] = useState("list");
   const routes = [
-    { page: "detail", label: "Sobre o filme" },
-    { page: "checkout", label: "Assistir" },
+    { page: "list", label: "Sessões" },
+    { page: "add", label: "Adicionar" },
   ];
 
-  const {
-    movieDetails,
-    movieCredits,
-    movieComments,
-    errorMovie,
-    loadingMovie,
-  } = useMovieDetails(id);
-  const { screenings, errorScreening, loadingScreening } =
-    useMovieScreenings(id);
+  const { movieDetails, errorMovie, loadingMovie } = useMovieDetails(id);
+  const { screenings, errorScreening, loadingScreening } = useMovieScreenings(id);
 
   if (loadingMovie || loadingScreening) {
     return (
@@ -48,20 +41,17 @@ function Movie() {
 
       <Submenu setActivePage={setActivePage} routes={routes} />
 
-      {activePage === "detail" ? (
-        movieDetails ? (
-          <MovieDetail
+      {activePage === "list" ? (
+        movieDetails && screenings ? (
+          <ListScreenings
             movieId={id}
-            movieDetails={movieDetails}
-            movieCredits={movieCredits}
-            movieComments={movieComments}
+            screenings={screenings}
           />
         ) : (
-          <Text style={styles.warning}>Detalhes do filme não disponíveis.</Text>
+          <Text style={styles.warning}>Não há sessões disponíveis para esse filme.</Text>
         )
       ) : (
-        <MovieCheckout
-          screenings={screenings}
+        <NewScreenings
           movieName={movieDetails?.title}
           id={id}
         />
@@ -78,9 +68,9 @@ const styles = StyleSheet.create({
   warning: {
     color: "#fefefe",
     textAlign: "center",
-    marginVertical: 20,
+    marginTop: 80,
     fontSize: 16,
   },
 });
 
-export default Movie;
+export default MovieScreenings;
