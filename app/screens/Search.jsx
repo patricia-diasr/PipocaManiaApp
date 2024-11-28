@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {
+  ScrollView,
   View,
   Text,
   TextInput,
   TouchableOpacity,
   ImageBackground,
-  FlatList,
   StyleSheet,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -28,50 +28,52 @@ function Search() {
   };
 
   if (loading) {
-    return <Text style={styles.loading}>Carregando...</Text>;
+    return <Text style={styles.warning}>Carregando...</Text>;
   }
 
   if (error) {
-    return <Text style={styles.error}>Erro: {error}</Text>;
+    return <Text style={styles.warning}>Erro: {error}</Text>;
   }
 
   return (
-    <View style={styles.search}>
-      <Text style={styles.title}>Buscar</Text>
+    <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={styles.search}>
+        <Text style={styles.title}>Buscar</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Pesquise filmes"
-        value={query}
-        onChangeText={handleInputChange}
-        onSubmitEditing={handleSearch}
-      />
+        <TextInput
+          style={styles.input}
+          placeholder="Pesquise filmes"
+          value={query}
+          onChangeText={handleInputChange}
+          onSubmitEditing={handleSearch}
+        />
 
-      <FlatList
-        data={movies}
-        keyExtractor={(item) => item.id.toString()}
-        numColumns={2}
-        renderItem={({ item }) => (
-          <TouchableOpacity
-            style={styles.movie}
-            onPress={() => handleMovieClick(item.id)}
-          >
-            <ImageBackground
-              source={{
-                uri: `https://image.tmdb.org/t/p/w200${item.poster_path}`,
-              }}
-              style={styles.image}
-              imageStyle={styles.imageBackground}
-            />
-          </TouchableOpacity>
-        )}
-        contentContainerStyle={styles.movieList}
-      />
-    </View>
+        <View style={styles.movieList}>
+          {movies.map((movie) => (
+            <TouchableOpacity
+              key={movie.id}
+              style={styles.movie}
+              onPress={() => handleMovieClick(movie.id)}
+            >
+              <ImageBackground
+                source={{
+                  uri: `https://image.tmdb.org/t/p/w200${movie.poster_path}`,
+                }}
+                style={styles.image}
+                imageStyle={styles.imageBackground}
+              />
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+  },
   search: {
     backgroundColor: "#0c0f0a",
     flex: 1,
@@ -93,6 +95,11 @@ const styles = StyleSheet.create({
     paddingLeft: 8,
     marginBottom: 20,
   },
+  movieList: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+  },
   movie: {
     width: 154,
     height: 231,
@@ -107,17 +114,10 @@ const styles = StyleSheet.create({
   imageBackground: {
     resizeMode: "cover",
   },
-  movieList: {
-    alignItems: "center",
-  },
-  loading: {
-    fontSize: 18,
+  warning: {
     textAlign: "center",
-  },
-  error: {
-    fontSize: 18,
-    textAlign: "center",
-    color: "red",
+    marginVertical: 70,
+    fontSize: 16,
   },
 });
 
