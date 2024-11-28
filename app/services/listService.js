@@ -1,12 +1,10 @@
 import { apiMovies } from "./apiClient";
 import { apiMovieTheater } from "./apiClient";
 
-const API_KEY = "df206deae15646e9166c5f330a509970";
-
 export async function getUpcomingMovies() {
   try {
     const response = await apiMovies.get(
-      `/movie/upcoming?api_key=${API_KEY}&language=pt-BR&region=BR`
+      `/movie/upcoming?language=pt-BR&region=BR`
     );
     return response.data.results.slice(0, 4);
   } catch (error) {
@@ -17,7 +15,7 @@ export async function getUpcomingMovies() {
 export async function getPopularMovies() {
   try {
     const response = await apiMovies.get(
-      `/movie/popular?api_key=${API_KEY}&language=pt-BR&region=BR`
+      `/movie/popular?language=pt-BR&region=BR`
     );
     return response.data.results;
   } catch (error) {
@@ -28,7 +26,7 @@ export async function getPopularMovies() {
 export async function searchMovies(query) {
   try {
     const response = await apiMovies.get(
-      `/search/movie?api_key=${API_KEY}&language=pt-BR&query=${encodeURIComponent(
+      `/search/movie?language=pt-BR&query=${encodeURIComponent(
         query
       )}&region=BR`
     );
