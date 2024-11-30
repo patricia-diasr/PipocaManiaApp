@@ -11,8 +11,7 @@ import MovieList from "../components/MovieList";
 import useMovieLists from "../hooks/useMovieLists";
 
 function Lists() {
-  const user = "2";
-  const { watchlist, myReviews, error, loading, fetchMovieLists } = useMovieLists(user); 
+  const { watchlist, myReviews, error, loading, fetchMovieLists } = useMovieLists(); 
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = async () => {

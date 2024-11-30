@@ -7,13 +7,13 @@ function useNewReview() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
-  const submitReview = async (userId, movieId, comment, review) => {
+  const submitReview = async (movieId, comment, review) => {
     setLoading(true);
     setError(null);
     setSuccess(false);
     try {
       await saveComment(movieId, comment);
-      await addMovieReviewList(userId, review);
+      await addMovieReviewList(review);
       setSuccess(true);
     } catch (err) {
       setError(err.message);

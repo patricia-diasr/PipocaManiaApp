@@ -1,5 +1,6 @@
 import { apiMovies } from "./apiClient";
 import { apiMovieTheater } from "./apiClient";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export async function getUpcomingMovies() {
   try {
@@ -36,8 +37,17 @@ export async function searchMovies(query) {
   }
 }
 
-export async function getUserMovieLists(userId) {
+export async function getUserMovieLists() {
   try {
+    const storedUser = await AsyncStorage.getItem("user");
+    const parsedUser = JSON.parse(storedUser);
+
+    if (!parsedUser?.id) {
+      throw new Error("Usuário não encontrado no armazenamento.");
+    }
+
+    const userId = parsedUser.id;
+
     const response = await apiMovieTheater.get(`/users.json`);
     const users = response.data;
     const user = users.find((user) => user.id === userId);
@@ -48,8 +58,17 @@ export async function getUserMovieLists(userId) {
   }
 }
 
-export async function addMovieReviewList(userId, movie) {
+export async function addMovieReviewList(movie) {
   try {
+    const storedUser = await AsyncStorage.getItem("user");
+    const parsedUser = JSON.parse(storedUser);
+
+    if (!parsedUser?.id) {
+      throw new Error("Usuário não encontrado no armazenamento.");
+    }
+
+    const userId = parsedUser.id;
+
     const response = await apiMovieTheater.get(`/users.json`);
     const users = response.data;
 
@@ -73,8 +92,17 @@ export async function addMovieReviewList(userId, movie) {
   }
 }
 
-export async function searchWatchList(userId, movieId) {
+export async function searchWatchList(movieId) {
   try {
+    const storedUser = await AsyncStorage.getItem("user");
+    const parsedUser = JSON.parse(storedUser);
+
+    if (!parsedUser?.id) {
+      throw new Error("Usuário não encontrado no armazenamento.");
+    }
+
+    const userId = parsedUser.id;
+
     const response = await apiMovieTheater.get(`/users.json`);
     const users = response.data;
 
@@ -88,8 +116,17 @@ export async function searchWatchList(userId, movieId) {
   }
 }
 
-export async function addMovieWatchList(userId, movie) {
+export async function addMovieWatchList(movie) {
   try {
+    const storedUser = await AsyncStorage.getItem("user");
+    const parsedUser = JSON.parse(storedUser);
+
+    if (!parsedUser?.id) {
+      throw new Error("Usuário não encontrado no armazenamento.");
+    }
+
+    const userId = parsedUser.id;
+
     const response = await apiMovieTheater.get(`/users.json`);
     const users = response.data;
 
@@ -107,15 +144,23 @@ export async function addMovieWatchList(userId, movie) {
     }
 
     users[userIndex].watchlist = watchlist;
-
     await apiMovieTheater.put(`/users.json`, users);
   } catch (error) {
     throw new Error("Error updating watchlist");
   }
 }
 
-export async function removeMovieWatchList(userId, movieId) {
+export async function removeMovieWatchList(movieId) {
   try {
+    const storedUser = await AsyncStorage.getItem("user");
+    const parsedUser = JSON.parse(storedUser);
+
+    if (!parsedUser?.id) {
+      throw new Error("Usuário não encontrado no armazenamento.");
+    }
+
+    const userId = parsedUser.id;
+
     const response = await apiMovieTheater.get(`/users.json`);
     const users = response.data;
 

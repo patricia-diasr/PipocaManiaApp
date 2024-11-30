@@ -33,7 +33,6 @@ export async function addNewScreening(movieId, screening) {
 
     await apiMovieTheater.put(`/movies.json`, movies);
   } catch (error) {
-    console.log(error);
     throw new Error(`Error adding movie screenings for movie ID ${movieId}`);
   }
 }

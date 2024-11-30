@@ -162,13 +162,11 @@ function MovieCheckout({ screenings, movieName, movieId }) {
       status: true,
     };
 
-    const user = "2";
-
     setModalMessage("Enviando a compra...");
     setShowModal(true);
 
     try {
-      await submitCheckout(user, reservation, seatingData);
+      await submitCheckout(reservation, seatingData);
       setModalMessage("Compra realizada com sucesso!");
 
       setSelectedDate("");

@@ -12,8 +12,7 @@ import {
 import useGetCheckout from "../hooks/useGetCheckout";
 
 function Tickets() {
-  const user = "2";
-  const { tickets, error, loading, fetchCheckout } = useGetCheckout(user);
+  const { tickets, error, loading, fetchCheckout } = useGetCheckout();
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedTicket, setSelectedTicket] = useState(false);
   const [refreshing, setRefreshing] = useState(false);  

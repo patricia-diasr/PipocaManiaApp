@@ -19,19 +19,15 @@ import {
   addMovieWatchList,
   removeMovieWatchList,
 } from "../services/listService";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function MovieDetail({ movieId, movieDetails, movieCredits, movieComments }) {
-  const userId = "2";
   const navigation = useNavigation();
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isInWatchlist, setIsInWatchlist] = useState(false);
 
-  const {
-    review: myReview,
-    error,
-    loading,
-  } = useGetMovieComment(userId, movieId);
+  const { review: myReview, error, loading } = useGetMovieComment(movieId);
   const { submitReview, loadingComment, errorComment, success } =
     useNewReview();
 
@@ -65,7 +61,7 @@ function MovieDetail({ movieId, movieDetails, movieCredits, movieComments }) {
 
   async function checkWatchlist() {
     try {
-      const inWatchlist = await searchWatchList(userId, movieId);
+      const inWatchlist = await searchWatchList(movieId);
       setIsInWatchlist(!!inWatchlist);
     } catch (error) {
       console.error("Erro ao verificar a lista de watchlist:", error);
@@ -74,13 +70,11 @@ function MovieDetail({ movieId, movieDetails, movieCredits, movieComments }) {
 
   async function toggleWatchlist() {
     try {
-      const user = "2";
-
       if (isInWatchlist) {
-        await removeMovieWatchList(user, movieId);
+        await removeMovieWatchList(movieId);
         setIsInWatchlist(false);
       } else {
-        await addMovieWatchList(user, {
+        await addMovieWatchList({
           id: movieId,
           poster_path: movieDetails.poster_path,
         });
@@ -95,10 +89,7 @@ function MovieDetail({ movieId, movieDetails, movieCredits, movieComments }) {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    const user = {
-      id: "2",
-      name: "Patricia Rodrigues",
-    };
+    const user = JSON.parse(await AsyncStorage.getItem("user"));
 
     try {
       const comment = {
@@ -114,10 +105,10 @@ function MovieDetail({ movieId, movieDetails, movieCredits, movieComments }) {
         comment: movieDetails.comment,
       };
 
-      await submitReview(user.id, movieId, comment, review);
+      await submitReview(movieId, comment, review);
       closeModal();
       setNewReview({ stars: 0, comment: "" });
-      navigation.replace("MovieDetail", { movieId: movieId });
+      navigation.navigate("Movie", { id: movieId });
     } catch (error) {
       console.error("Erro ao enviar avaliação:", error);
     }
