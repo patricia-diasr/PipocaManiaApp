@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { BarCodeScanner } from "expo-barcode-scanner";
+import { CameraView, Camera } from "expo-camera";
 import { Ionicons } from "@expo/vector-icons";
 import { useCheckout } from "../services/checkoutService";
 
@@ -13,13 +13,15 @@ const CheckTickets = () => {
   const [checkoutData, setCheckoutData] = useState(null);
 
   useEffect(() => {
-    (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
+    const getCameraPermissions = async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === "granted");
-    })();
+    };
+
+    getCameraPermissions();
   }, []);
 
-  const handleBarCodeScanned = async ({ type, data }) => {
+  const handleBarcodeScanned = async ({ type, data }) => {
     setScanned(true);
     setScannedData(data);
     setIsCameraActive(false);
@@ -40,15 +42,19 @@ const CheckTickets = () => {
 
   if (hasPermission === null) {
     return (
-      <Text style={styles.warning}>
-        Solicitando permissão para acessar a câmera...
-      </Text>
+      <View style={styles.container}>
+        <Text style={styles.warning}>Solicitando permissão de câmera...</Text>
+      </View>
     );
   }
 
   if (hasPermission === false) {
     return (
-      <Text style={styles.warning}>Sem permissão para acessar a câmera.</Text>
+      <View style={styles.container}>
+        <Text style={styles.warning}>
+          Permissão para acessar a câmera foi negada.
+        </Text>
+      </View>
     );
   }
 
@@ -56,8 +62,11 @@ const CheckTickets = () => {
     <View style={styles.container}>
       {isCameraActive ? (
         <>
-          <BarCodeScanner
-            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+          <CameraView
+            onBarcodeScanned={scanned ? undefined : handleBarcodeScanned}
+            barcodeScannerSettings={{
+              barcodeTypes: ["qr", "pdf417"],
+            }}
             style={StyleSheet.absoluteFillObject}
           />
           <TouchableOpacity
@@ -181,7 +190,7 @@ const styles = StyleSheet.create({
   warning: {
     color: "#fefefe",
     textAlign: "center",
-    marginVertical: 20,
+    marginTop: 120,
     fontSize: 16,
   },
   resultText: {
