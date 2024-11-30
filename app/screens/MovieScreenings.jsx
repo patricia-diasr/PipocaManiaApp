@@ -51,7 +51,7 @@ function MovieScreenings() {
           </Text>
         )
       ) : (
-        <NewScreenings movieName={movieDetails?.title} id={id} />
+        <NewScreenings movieId={id} />
       )}
     </ScrollView>
   );

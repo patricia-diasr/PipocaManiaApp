@@ -5,15 +5,20 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
+  Alert,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { addNewScreening } from "../services/screeningsService";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-function NewScreening() {
+function NewScreening({ movieId }) {
   const [selectedAudio, setSelectedAudio] = useState("");
   const [selectedFormat, setSelectedFormat] = useState("");
   const [date, setDate] = useState(null);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [mode, setMode] = useState("date");
+
+  const navigation = useNavigation();
 
   const isFormValid = selectedAudio && selectedFormat && date;
 
@@ -50,9 +55,495 @@ function NewScreening() {
     }
   };
 
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const monthNames = [
+      "Janeiro",
+      "Fevereiro",
+      "Março",
+      "Abril",
+      "Maio",
+      "Junho",
+      "Julho",
+      "Agosto",
+      "Setembro",
+      "Outubro",
+      "Novembro",
+      "Dezembro",
+    ];
+    const month = monthNames[date.getMonth()];
+
+    return `${day} de ${month}`;
+  }
+
+  function formatTime(dateString) {
+    const date = new Date(dateString);
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+
+    return `${hours}:${minutes}`;
+  }
+
   const handleSubmit = async () => {
     if (!isFormValid) {
       return;
+    }
+
+    const dateTime = date;
+    const screening = {
+      id: new Date(),
+      date: formatDate(dateTime),
+      time: formatTime(dateTime),
+      type: `${selectedFormat} ${selectedAudio}`,
+      seats: [
+        [
+          {
+            position: "A1",
+            status: "available",
+          },
+          {
+            position: "A2",
+            status: "available",
+          },
+          {
+            position: "A3",
+            status: "available",
+          },
+          {
+            position: "A4",
+            status: "available",
+          },
+          "null",
+          {
+            position: "A5",
+            status: "available",
+          },
+          {
+            position: "A6",
+            status: "available",
+          },
+          {
+            position: "A7",
+            status: "available",
+          },
+          {
+            position: "A8",
+            status: "available",
+          },
+        ],
+        [
+          {
+            position: "B1",
+            status: "available",
+          },
+          {
+            position: "B2",
+            status: "available",
+          },
+          {
+            position: "B3",
+            status: "available",
+          },
+          {
+            position: "B4",
+            status: "available",
+          },
+          "null",
+          {
+            position: "B5",
+            status: "available",
+          },
+          {
+            position: "B6",
+            status: "available",
+          },
+          {
+            position: "B7",
+            status: "available",
+          },
+          {
+            position: "B8",
+            status: "available",
+          },
+        ],
+        [
+          {
+            position: "C1",
+            status: "available",
+          },
+          {
+            position: "C2",
+            status: "available",
+          },
+          {
+            position: "C3",
+            status: "available",
+          },
+          {
+            position: "C4",
+            status: "available",
+          },
+          "null",
+          {
+            position: "C5",
+            status: "available",
+          },
+          {
+            position: "C6",
+            status: "available",
+          },
+          {
+            position: "C7",
+            status: "available",
+          },
+          {
+            position: "C8",
+            status: "available",
+          },
+        ],
+        [
+          {
+            position: "D1",
+            status: "available",
+          },
+          {
+            position: "D2",
+            status: "available",
+          },
+          {
+            position: "D3",
+            status: "available",
+          },
+          {
+            position: "D4",
+            status: "available",
+          },
+          "null",
+          {
+            position: "D5",
+            status: "available",
+          },
+          {
+            position: "D6",
+            status: "available",
+          },
+          {
+            position: "D7",
+            status: "available",
+          },
+          {
+            position: "D8",
+            status: "available",
+          },
+        ],
+        [
+          {
+            position: "E1",
+            status: "available",
+          },
+          {
+            position: "E2",
+            status: "available",
+          },
+          {
+            position: "E3",
+            status: "available",
+          },
+          {
+            position: "E4",
+            status: "available",
+          },
+          "null",
+          {
+            position: "E5",
+            status: "available",
+          },
+          {
+            position: "E6",
+            status: "available",
+          },
+          {
+            position: "E7",
+            status: "available",
+          },
+          {
+            position: "E8",
+            status: "available",
+          },
+        ],
+        [
+          "null",
+          "null",
+          "null",
+          "null",
+          "null",
+          "null",
+          "null",
+          "null",
+          "null",
+        ],
+        [
+          {
+            position: "F1",
+            status: "available",
+          },
+          {
+            position: "F2",
+            status: "available",
+          },
+          {
+            position: "F3",
+            status: "available",
+          },
+          {
+            position: "F4",
+            status: "available",
+          },
+          "null",
+          {
+            position: "F5",
+            status: "available",
+          },
+          {
+            position: "F6",
+            status: "available",
+          },
+          {
+            position: "F7",
+            status: "available",
+          },
+          {
+            position: "F8",
+            status: "available",
+          },
+        ],
+        [
+          {
+            position: "G1",
+            status: "available",
+          },
+          {
+            position: "G2",
+            status: "available",
+          },
+          {
+            position: "G3",
+            status: "available",
+          },
+          {
+            position: "G4",
+            status: "available",
+          },
+          "null",
+          {
+            position: "G5",
+            status: "available",
+          },
+          {
+            position: "G6",
+            status: "available",
+          },
+          {
+            position: "G7",
+            status: "available",
+          },
+          {
+            position: "G8",
+            status: "available",
+          },
+        ],
+        [
+          {
+            position: "H1",
+            status: "available",
+          },
+          {
+            position: "H2",
+            status: "available",
+          },
+          {
+            position: "H3",
+            status: "available",
+          },
+          {
+            position: "H4",
+            status: "available",
+          },
+          "null",
+          {
+            position: "H5",
+            status: "available",
+          },
+          {
+            position: "H6",
+            status: "available",
+          },
+          {
+            position: "H7",
+            status: "available",
+          },
+          {
+            position: "H8",
+            status: "available",
+          },
+        ],
+        [
+          {
+            position: "I1",
+            status: "available",
+          },
+          {
+            position: "I2",
+            status: "available",
+          },
+          {
+            position: "I3",
+            status: "available",
+          },
+          {
+            position: "I4",
+            status: "available",
+          },
+          "null",
+          {
+            position: "I5",
+            status: "available",
+          },
+          {
+            position: "I6",
+            status: "available",
+          },
+          {
+            position: "I7",
+            status: "available",
+          },
+          {
+            position: "I8",
+            status: "available",
+          },
+        ],
+        [
+          {
+            position: "J1",
+            status: "available",
+          },
+          {
+            position: "J2",
+            status: "available",
+          },
+          {
+            position: "J3",
+            status: "available",
+          },
+          {
+            position: "J4",
+            status: "available",
+          },
+          "null",
+          {
+            position: "J5",
+            status: "available",
+          },
+          {
+            position: "J6",
+            status: "available",
+          },
+          {
+            position: "J7",
+            status: "available",
+          },
+          {
+            position: "J8",
+            status: "available",
+          },
+        ],
+        [
+          {
+            position: "K1",
+            status: "available",
+          },
+          {
+            position: "K2",
+            status: "available",
+          },
+          {
+            position: "K3",
+            status: "available",
+          },
+          {
+            position: "K4",
+            status: "available",
+          },
+          "null",
+          {
+            position: "K5",
+            status: "available",
+          },
+          {
+            position: "K6",
+            status: "available",
+          },
+          {
+            position: "K7",
+            status: "available",
+          },
+          {
+            position: "K8",
+            status: "available",
+          },
+        ],
+        [
+          {
+            position: "L1",
+            status: "available",
+          },
+          {
+            position: "L2",
+            status: "available",
+          },
+          {
+            position: "L3",
+            status: "available",
+          },
+          {
+            position: "L4",
+            status: "available",
+          },
+          "null",
+          {
+            position: "L5",
+            status: "available",
+          },
+          {
+            position: "L6",
+            status: "available",
+          },
+          {
+            position: "L7",
+            status: "available",
+          },
+          {
+            position: "L8",
+            status: "available",
+          },
+        ],
+      ],
+    };
+
+    try {
+      await addNewScreening(movieId, screening);
+      Alert.alert("Sucesso!", "Sessão adicionada com sucesso.", [
+        {
+          text: "OK",
+          onPress: () => navigation.navigate("Screenings"),
+        },
+      ]);
+    } catch (error) {
+      Alert.alert(
+        "Erro",
+        "Ocorreu um erro a adicionar sessão. Por favor, tente novamente."
+      );
     }
   };
 
@@ -65,14 +556,14 @@ function NewScreening() {
             <TouchableOpacity
               style={[
                 styles.option,
-                selectedAudio === "dublado" && styles.selectedOption,
+                selectedAudio === "Dublado" && styles.selectedOption,
               ]}
-              onPress={() => setSelectedAudio("dublado")}
+              onPress={() => setSelectedAudio("Dublado")}
             >
               <Text
                 style={[
                   styles.optionText,
-                  selectedAudio === "dublado" && styles.selectedOptionText,
+                  selectedAudio === "Dublado" && styles.selectedOptionText,
                 ]}
               >
                 Dublado
@@ -81,14 +572,14 @@ function NewScreening() {
             <TouchableOpacity
               style={[
                 styles.option,
-                selectedAudio === "legendado" && styles.selectedOption,
+                selectedAudio === "Legendado" && styles.selectedOption,
               ]}
-              onPress={() => setSelectedAudio("legendado")}
+              onPress={() => setSelectedAudio("Legendado")}
             >
               <Text
                 style={[
                   styles.optionText,
-                  selectedAudio === "legendado" && styles.selectedOptionText,
+                  selectedAudio === "Legendado" && styles.selectedOptionText,
                 ]}
               >
                 Legendado
@@ -105,14 +596,14 @@ function NewScreening() {
             <TouchableOpacity
               style={[
                 styles.option,
-                selectedFormat === "2d" && styles.selectedOption,
+                selectedFormat === "2D" && styles.selectedOption,
               ]}
-              onPress={() => setSelectedFormat("2d")}
+              onPress={() => setSelectedFormat("2D")}
             >
               <Text
                 style={[
                   styles.optionText,
-                  selectedFormat === "2d" && styles.selectedOptionText,
+                  selectedFormat === "2D" && styles.selectedOptionText,
                 ]}
               >
                 Filme 2D
@@ -121,14 +612,14 @@ function NewScreening() {
             <TouchableOpacity
               style={[
                 styles.option,
-                selectedFormat === "3d" && styles.selectedOption,
+                selectedFormat === "3D" && styles.selectedOption,
               ]}
-              onPress={() => setSelectedFormat("3d")}
+              onPress={() => setSelectedFormat("3D")}
             >
               <Text
                 style={[
                   styles.optionText,
-                  selectedFormat === "3d" && styles.selectedOptionText,
+                  selectedFormat === "3D" && styles.selectedOptionText,
                 ]}
               >
                 Filme 3D
