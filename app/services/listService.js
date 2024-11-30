@@ -107,7 +107,7 @@ export async function searchWatchList(movieId) {
     const users = response.data;
 
     const user = users.find((user) => user.id === userId);
-    const list = user.watchlist;
+    const list = user.watchlist || [];
 
     const isInWatchList = list.find((movie) => movie.id === movieId);
     return isInWatchList;

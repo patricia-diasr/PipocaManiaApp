@@ -1,8 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
 import { getUpcomingMovies } from "../services/listService";
+import { getAllMovieScreenings } from "../services/screeningsService";
 
 function useMovieSugestions() {
   const [upcomingMovies, setUpcomingMovies] = useState(null);
+  const [showingNow, setShowingNow] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -10,7 +12,10 @@ function useMovieSugestions() {
     try {
       setLoading(true); 
       const upcomingMovies = await getUpcomingMovies();
+      const showingNowMovies = await getAllMovieScreenings();
+
       setUpcomingMovies(upcomingMovies);
+      setShowingNow(showingNowMovies);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -22,7 +27,7 @@ function useMovieSugestions() {
     fetchMovieDetails(); 
   }, [fetchMovieDetails]);
 
-  return { upcomingMovies, error, loading, fetchMovieDetails }; 
+  return { upcomingMovies, showingNow, error, loading, fetchMovieDetails }; 
 }
 
 export default useMovieSugestions;

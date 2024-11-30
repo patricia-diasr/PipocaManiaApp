@@ -11,7 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import { addNewScreening } from "../services/screeningsService";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-function NewScreening({ movieId }) {
+function NewScreening({ movieId, poster }) {
   const [selectedAudio, setSelectedAudio] = useState("");
   const [selectedFormat, setSelectedFormat] = useState("");
   const [date, setDate] = useState(null);
@@ -532,7 +532,7 @@ function NewScreening({ movieId }) {
     };
 
     try {
-      await addNewScreening(movieId, screening);
+      await addNewScreening(movieId, screening, poster);
       Alert.alert("Sucesso!", "Sessão adicionada com sucesso.", [
         {
           text: "OK",

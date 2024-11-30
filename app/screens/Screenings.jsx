@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,21 +8,35 @@ import {
   ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { getAllMovieScreenings } from "../services/screeningsService";
 
 function Screenings() {
   const navigation = useNavigation();
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleMovieClick = (movieId) => {
     navigation.navigate("MovieScreenings", { id: movieId });
   };
 
-  const movies = [
-    { id: "1022789", poster_path: "/hGTxHEDQBa6AAuGWDrTpbJjEO0w.jpg" },
-    { id: "917496", poster_path: "/qhwYf4lHJsUyXFKEUKpt93yttJp.jpg" },
-    { id: "587563", poster_path: "/zk2d0w7XrK9xvBtFiERr0HJoGuL.jpg" },
-    { id: "698687", poster_path: "/cuFhVLPJ9zC06EMV5XAKNNRJtC4.jpg" },
-    { id: "889737", poster_path: "/ud3gcdKienuJcViF2tZrIAbGOW8.jpg" },
-  ];
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const moviesData = await getAllMovieScreenings();
+        setMovies(moviesData);
+      } catch (error) {
+        console.error("Error fetching movies:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovies();
+  }, []);
+
+  if (loading) {
+    return <Text style={styles.loading}>Carregando filmes...</Text>;
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -86,6 +100,12 @@ const styles = StyleSheet.create({
   },
   imageBackground: {
     resizeMode: "cover",
+  },
+  loading: {
+    color: "#fefefe",
+    textAlign: "center",
+    fontSize: 18,
+    marginTop: 20,
   },
 });
 

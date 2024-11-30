@@ -14,7 +14,7 @@ export async function getCheckout(userId) {
       });
       return tickets;
     } else {
-      return false;
+      return [];
     }
   } catch (error) {
     throw new Error("Error getting checkouts");

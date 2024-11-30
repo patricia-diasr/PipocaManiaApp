@@ -5,29 +5,21 @@ import {
   ActivityIndicator,
   StyleSheet,
   ScrollView,
-  RefreshControl
+  RefreshControl,
 } from "react-native";
 import Banner from "../components/Banner";
 import MovieList from "../components/MovieList";
 import useMovieSugestions from "../hooks/useMovieSugestions";
 
 function Home() {
-  const { upcomingMovies, error, loading, fetchMovieDetails } = useMovieSugestions(); 
-  const [refreshing, setRefreshing] = useState(false); 
+  const { upcomingMovies, showingNow, error, loading, fetchMovieDetails } =
+    useMovieSugestions();
+  const [refreshing, setRefreshing] = useState(false);
 
-
-  const showingNow = [
-    { id: "1022789", poster_path: "/hGTxHEDQBa6AAuGWDrTpbJjEO0w.jpg" },
-    { id: "917496", poster_path: "/qhwYf4lHJsUyXFKEUKpt93yttJp.jpg" },
-    { id: "587563", poster_path: "/zk2d0w7XrK9xvBtFiERr0HJoGuL.jpg" },
-    { id: "698687", poster_path: "/cuFhVLPJ9zC06EMV5XAKNNRJtC4.jpg" },
-    { id: "889737", poster_path: "/ud3gcdKienuJcViF2tZrIAbGOW8.jpg" },
-  ];
-  
   const onRefresh = async () => {
-    setRefreshing(true); 
-    await fetchMovieDetails(); 
-    setRefreshing(false); 
+    setRefreshing(true);
+    await fetchMovieDetails();
+    setRefreshing(false);
   };
 
   if (loading) {
@@ -50,10 +42,10 @@ function Home() {
     <ScrollView
       style={styles.home}
       refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> 
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
     >
-      <Banner path_image="p5ozvmdgsmbWe0H8Xk7Rc8SCwAB.jpg" />
+      <Banner path_image="/uKb22E0nlzr914bA9KyA5CVCOlV.jpg" />
       <View style={styles.section}>
         <MovieList list={showingNow} title="Em Cartaz" />
         <MovieList list={upcomingMovies} title="Próximos Lançamentos" />

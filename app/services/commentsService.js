@@ -3,8 +3,13 @@ import { apiMovieTheater } from "./apiClient";
 export async function getMovieComments(movieId) {
   try {
     const response = await apiMovieTheater.get(`/movies.json`);
-    const usersData = response.data;
-    const movie = usersData.find((movie) => movie.id === movieId);
+
+    if (!response.data) {
+      return [];
+    }
+
+    const movieData = response.data;
+    const movie = movieData.find((movie) => movie.id === movieId);
 
     if (movie) {
       return movie.comments || [];
@@ -43,7 +48,7 @@ export async function saveComment(movieId, comment) {
     const movieIndex = movies.findIndex((movie) => movie.id === movieId);
     const movie = movies[movieIndex];
 
-    const updateComments = [...movie.comments, comment];
+    const updateComments = movie.comments ? [...movie.comments, comment] : [comment];
     movies[movieIndex].comments = updateComments;
 
     await apiMovieTheater.put(`/movies.json`, movies);
