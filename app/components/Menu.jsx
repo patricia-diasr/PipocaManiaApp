@@ -12,6 +12,7 @@ import MovieScreenings from "../screens/MovieScreenings";
 import CheckTickets from "../screens/CheckTickets";
 import Search from "../screens/Search";
 import Screenings from "../screens/Screenings";
+import BlockSeat from "../screens/BlockSeat";
 import Login from "../screens/Login";
 import Signup from "../screens/Signup";
 
@@ -49,6 +50,7 @@ function SearchStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="SearchScreen" component={Search} />
       <Stack.Screen name="MovieScreenings" component={MovieScreenings} />
+      <Stack.Screen name="BlockSeat" component={BlockSeat} />
     </Stack.Navigator>
   );
 }
@@ -66,6 +68,7 @@ function ScreeningsStack() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="ScreeningsScreen" component={Screenings} />
       <Stack.Screen name="MovieScreenings" component={MovieScreenings} />
+      <Stack.Screen name="BlockSeat" component={BlockSeat} />
     </Stack.Navigator>
   );
 }

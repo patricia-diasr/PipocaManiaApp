@@ -21,7 +21,8 @@ function MovieScreenings() {
   ];
 
   const { movieDetails, errorMovie, loadingMovie } = useMovieDetails(id);
-  const { screenings, errorScreening, loadingScreening } = useMovieScreenings(id);
+  const { screenings, errorScreening, loadingScreening } =
+    useMovieScreenings(id);
 
   if (loadingMovie || loadingScreening) {
     return (
@@ -43,18 +44,14 @@ function MovieScreenings() {
 
       {activePage === "list" ? (
         movieDetails && screenings ? (
-          <ListScreenings
-            movieId={id}
-            screenings={screenings}
-          />
+          <ListScreenings movieId={id} screenings={screenings} />
         ) : (
-          <Text style={styles.warning}>Não há sessões disponíveis para esse filme.</Text>
+          <Text style={styles.warning}>
+            Não há sessões disponíveis para esse filme.
+          </Text>
         )
       ) : (
-        <NewScreenings
-          movieName={movieDetails?.title}
-          id={id}
-        />
+        <NewScreenings movieName={movieDetails?.title} id={id} />
       )}
     </ScrollView>
   );

@@ -27,8 +27,7 @@ function Movie() {
     errorMovie,
     loadingMovie,
   } = useMovieDetails(id);
-  const { screenings, errorScreening, loadingScreening } =
-    useMovieScreenings(id);
+  const { screenings, errorScreening, loadingScreening } = useMovieScreenings(id);
 
   if (loadingMovie || loadingScreening) {
     return (
