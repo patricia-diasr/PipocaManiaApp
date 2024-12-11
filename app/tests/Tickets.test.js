@@ -8,103 +8,105 @@ import {
 import Tickets from "../screens/Tickets";
 import useGetCheckout from "../hooks/useGetCheckout";
 
-jest.mock("../hooks/useGetCheckout", () => ({
-  __esModule: true,
-  default: jest.fn(),
-}));
+if (typeof jest !== "undefined") {
+  jest.mock("../hooks/useGetCheckout", () => ({
+    __esModule: true,
+    default: jest.fn(),
+  }));
 
-describe("Tickets Component", () => {
-  const mockTickets = [
-    {
-      checkoutId: "1",
-      movieName: "Test Movie",
-      date: "2024-01-15",
-      time: "19:30",
-      status: true,
-      selectedSeats: ["A1", "A2"],
-      tickets: {
-        half: 1,
-        full: 1,
+  describe("Tickets Component", () => {
+    const mockTickets = [
+      {
+        checkoutId: "1",
+        movieName: "Test Movie",
+        date: "2024-01-15",
+        time: "19:30",
+        status: true,
+        selectedSeats: ["A1", "A2"],
+        tickets: {
+          half: 1,
+          full: 1,
+        },
       },
-    },
-  ];
+    ];
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  test("renders loading state correctly", () => {
-    useGetCheckout.mockReturnValue({
-      loading: true,
-      tickets: null,
-      error: null,
-      fetchCheckout: jest.fn(),
+    beforeEach(() => {
+      jest.clearAllMocks();
     });
 
-    render(<Tickets />);
+    test("renders loading state correctly", () => {
+      useGetCheckout.mockReturnValue({
+        loading: true,
+        tickets: null,
+        error: null,
+        fetchCheckout: jest.fn(),
+      });
 
-    expect(screen.getByText("Carregando...")).toBeTruthy();
-  });
+      render(<Tickets />);
 
-  test("renders error state correctly", () => {
-    useGetCheckout.mockReturnValue({
-      loading: false,
-      tickets: null,
-      error: "Test error message",
-      fetchCheckout: jest.fn(),
+      expect(screen.getByText("Carregando...")).toBeTruthy();
     });
 
-    render(<Tickets />);
+    test("renders error state correctly", () => {
+      useGetCheckout.mockReturnValue({
+        loading: false,
+        tickets: null,
+        error: "Test error message",
+        fetchCheckout: jest.fn(),
+      });
 
-    expect(screen.getByText(/Erro: Test error message/)).toBeTruthy();
-  });
+      render(<Tickets />);
 
-  test("renders tickets list when data is available", () => {
-    useGetCheckout.mockReturnValue({
-      loading: false,
-      tickets: mockTickets,
-      error: null,
-      fetchCheckout: jest.fn(),
+      expect(screen.getByText(/Erro: Test error message/)).toBeTruthy();
     });
 
-    render(<Tickets />);
+    test("renders tickets list when data is available", () => {
+      useGetCheckout.mockReturnValue({
+        loading: false,
+        tickets: mockTickets,
+        error: null,
+        fetchCheckout: jest.fn(),
+      });
 
-    expect(screen.getByText("Meus Ingressos")).toBeTruthy();
-    expect(screen.getByText("Test Movie")).toBeTruthy();
-    expect(screen.getByText("2024-01-15")).toBeTruthy();
-  });
+      render(<Tickets />);
 
-  test("closes modal when close button is pressed", () => {
-    useGetCheckout.mockReturnValue({
-      loading: false,
-      tickets: mockTickets,
-      error: null,
-      fetchCheckout: jest.fn(),
+      expect(screen.getByText("Meus Ingressos")).toBeTruthy();
+      expect(screen.getByText("Test Movie")).toBeTruthy();
+      expect(screen.getByText("2024-01-15")).toBeTruthy();
     });
 
-    render(<Tickets />);
+    test("closes modal when close button is pressed", () => {
+      useGetCheckout.mockReturnValue({
+        loading: false,
+        tickets: mockTickets,
+        error: null,
+        fetchCheckout: jest.fn(),
+      });
 
-    fireEvent.press(screen.getByText("Test Movie"));
+      render(<Tickets />);
 
-    fireEvent.press(screen.getByText("Fechar"));
-  });
+      fireEvent.press(screen.getByText("Test Movie"));
 
-  test("disabled ticket is not clickable", () => {
-    const disabledTicket = {
-      ...mockTickets[0],
-      status: false,
-    };
-
-    useGetCheckout.mockReturnValue({
-      loading: false,
-      tickets: [disabledTicket],
-      error: null,
-      fetchCheckout: jest.fn(),
+      fireEvent.press(screen.getByText("Fechar"));
     });
 
-    render(<Tickets />);
+    test("disabled ticket is not clickable", () => {
+      const disabledTicket = {
+        ...mockTickets[0],
+        status: false,
+      };
 
-    const ticket = screen.getByText("Test Movie");
-    fireEvent.press(ticket);
+      useGetCheckout.mockReturnValue({
+        loading: false,
+        tickets: [disabledTicket],
+        error: null,
+        fetchCheckout: jest.fn(),
+      });
+
+      render(<Tickets />);
+
+      const ticket = screen.getByText("Test Movie");
+      fireEvent.press(ticket);
+    });
   });
-});
+}
